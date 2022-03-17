@@ -6,19 +6,24 @@ import json
 import os
 import re
 
-#Global Variable Block(2022/03/15 -JW)
+#Global Variable Block(2022/03/17 -JW)
 fileName = "MOCK_DATA.csv"
 filePath = "./TestData/"
 fullFilePath = filePath + fileName
-#Function Block(2022/03/15 -JW)
+outputFile = "userNames.json"
 
+#Function Block(2022/03/17 -JW)
+
+#Designed to normalize & work data inputed from the usernames.  Expects  
 def singleUser(firstName='Nomen', lastName='Nescio', domainName="@example.com"):
     firstName = firstName.lower()
     lastName = lastName.lower()
-    domainName = domainName.lstrip('@')
+    if(domainName[0] != '@'):
+        domainName = "@" + domainName    
     firstDotLast, fDotLast, firstLast, fLast, lastF, firLas = usernameGenerator(firstName, lastName)
     userNames = {'FirstDotLast':firstDotLast, 'FDotLast': fDotLast, 'FirstLast':firstLast, 'FLast':fLast, 'LastF':lastF, 'FirLas': firLas}
-    return userNames
+    emailAddresses = {'FirstDotLast':firstDotLast+domainName, 'FDotLast': fDotLast+domainName, 'FirstLast':firstLast+domainName, 'FLast':fLast+domainName, 'LastF':lastF+domainName, 'FirLas': firLas+domainName}
+    return userNames, emailAddresses
 
 def usernameGenerator(firstName, lastName):
     firstDotLast = firstName + "." + lastName
@@ -33,7 +38,7 @@ def main():
     userDict = {}
     dataHeaders = []
     inputUsers = []
-    domain = "@test.com"
+    domain = "test.com"
     with open(fullFilePath) as csvFile:
         csvReader = csv.reader(csvFile)
         dataHeaders = next(csvReader)
@@ -45,11 +50,14 @@ def main():
     for currentUser in inputUsers:
         firstName = re.search("[^\s]*",currentUser).group()
         lastName = re.search("(?<= ).*$",currentUser).group()
-        output = {"Usernames":singleUser(firstName, lastName, domain)},{"Emails":(firstName+lastName+domain)}
+        userNames, emailAddresses = singleUser(firstName, lastName, domain)
+        output = {"Usernames": userNames},{"Emails":emailAddresses}
         userDict.update({currentUser:output})
-    print(userDict)
     jsonObject = json.dumps(userDict, indent = 4)
-    print(jsonObject)
+    with open(outputFile, 'w') as outfile:
+        outfile.write(jsonObject)
+        print("Written successfully")
+    outfile.close()
 
 if __name__ == '__main__':
     main()
