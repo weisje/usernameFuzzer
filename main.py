@@ -76,11 +76,11 @@ def csvFeederFirstLast(fullFilePath, hasHeaders=True) -> list:
 def main():
     fileName = "MOCK_DATA.csv"
     filePath = "./TestData/"
+    domain = "@test.com"
     fullFilePath = filePath + fileName
     userDict = {}
     dataHeaders = []
     inputUsers = csvFeederFirstLast(fullFilePath)
-    domain = "@test.com"
 
     for currentUser in inputUsers:
         firstName = re.search("[^\s]*",currentUser).group()
