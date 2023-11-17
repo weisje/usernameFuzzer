@@ -8,9 +8,7 @@ import re
 
 
 # Global Variable Block
-fileName = "MOCK_DATA.csv"
-filePath = "./TestData/"
-fullFilePath = filePath + fileName
+
 
 
 # Function Block
@@ -51,19 +49,39 @@ def usernameGenerator(firstName, lastName) -> tuple[str, str, str, str, str, str
     return str(firstDotLast), str(fDotLast), str(firstLast), str(fLast), str(lastF), str(firLas)
 
 
-def main():
-    userDict = {}
-    dataHeaders = []
-    inputUsers = []
-    domain = "@test.com"
+def csvFeederFirstLast(fullFilePath, hasHeaders=True) -> list:
+    """
+    Feed in the CSV file with user data to get first & last Names
+    :param fullFilePath: Filepath to the csv file including its filename
+    :type fullFilePath: str
+    :param hasHeaders: To instruct the reader if the input CSV file has headers or not
+    :type hasHeaders: bool
+    :return: list
+    """
+
+    fileContents = []
     with open(fullFilePath) as csvFile:
         csvReader = csv.reader(csvFile)
-        dataHeaders = next(csvReader)
+        if hasHeaders:
+            next(csvReader)
         for row in csvReader:
             rowFirstName = row[0]
             rowLastName = row[1]
             rowName = rowFirstName + " " + rowLastName
-            inputUsers.append(rowName)
+            fileContents.append(rowName)
+
+    return fileContents
+
+
+def main():
+    fileName = "MOCK_DATA.csv"
+    filePath = "./TestData/"
+    fullFilePath = filePath + fileName
+    userDict = {}
+    dataHeaders = []
+    inputUsers = csvFeederFirstLast(fullFilePath)
+    domain = "@test.com"
+
     for currentUser in inputUsers:
         firstName = re.search("[^\s]*",currentUser).group()
         lastName = re.search("(?<= ).*$",currentUser).group()

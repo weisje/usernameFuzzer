@@ -8,3 +8,7 @@
     -Added return value doc
     -Added initial comments
     -Fixed return value to return tuple of six(6) str values
+-Created csvFeederFirstLast() function
+    -Function to read in CSV file & gather first/last names to degunk the main() function.
+    -Removed old functionality from main() function after constructing csvFeederFirstLast() function
+    -Added initial comments
