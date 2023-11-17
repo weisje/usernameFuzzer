@@ -30,18 +30,25 @@ def singleUser(firstName='Nomen', lastName='Nescio', domainName="@example.com") 
     lastName = lastName.lower()
     domainName = domainName.lstrip('@')
     firstDotLast, fDotLast, firstLast, fLast, lastF, firLas = usernameGenerator(firstName, lastName)
-    userNames = {'FirstDotLast':firstDotLast, 'FDotLast': fDotLast, 'FirstLast':firstLast, 'FLast':fLast, 'LastF':lastF, 'FirLas': firLas}
+    userNames = {'FirstDotLast': firstDotLast, 'FDotLast': fDotLast, 'FirstLast': firstLast, 'FLast': fLast, 'LastF': lastF, 'FirLas': firLas}
     return userNames
 
 
-def usernameGenerator(firstName, lastName):
-    firstDotLast = firstName + "." + lastName
-    fDotLast = firstName[:1] + "." + lastName
-    firstLast = firstName + lastName
-    fLast = firstName[:1] + lastName
-    lastF = lastName + firstName[:1]
-    firLas = firstName[0:3] + lastName[0:3]
-    return firstDotLast, fDotLast, firstLast, fLast, lastF, firLas
+def usernameGenerator(firstName, lastName) -> tuple[str, str, str, str, str, str]:
+    """
+    Generates a series of common username constructions from provided first & last name
+    :param firstName: First name of the user to guess username
+    :param lastName: Last name of the user to guess username
+    :return: tuple[str, str, str, str, str, str]
+    """
+
+    firstDotLast = firstName + "." + lastName # Jane.Smith
+    fDotLast = firstName[:1] + "." + lastName # J.Smith
+    firstLast = firstName + lastName # JaneSmith
+    fLast = firstName[:1] + lastName # JSmith
+    lastF = lastName + firstName[:1] # SmithJ
+    firLas = firstName[0:3] + lastName[0:3] # JanSmi
+    return str(firstDotLast), str(fDotLast), str(firstLast), str(fLast), str(lastF), str(firLas)
 
 
 def main():
