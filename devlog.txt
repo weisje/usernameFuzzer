@@ -13,3 +13,6 @@
     -Removed old functionality from main() function after constructing csvFeederFirstLast() function
     -Added initial comments
 -Moved values inside of main() to provide better flow
+
+19 November 2023
+-Minor structure updates

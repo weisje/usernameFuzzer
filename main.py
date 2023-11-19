@@ -10,7 +10,6 @@ import re
 # Global Variable Block
 
 
-
 # Function Block
 def singleUser(firstName='Nomen', lastName='Nescio', domainName="@example.com") -> dict:
     """
@@ -83,10 +82,10 @@ def main():
     inputUsers = csvFeederFirstLast(fullFilePath)
 
     for currentUser in inputUsers:
-        firstName = re.search("[^\s]*",currentUser).group()
-        lastName = re.search("(?<= ).*$",currentUser).group()
-        output = {"Usernames":singleUser(firstName, lastName, domain)},{"Emails":(firstName+lastName+domain)}
-        userDict.update({currentUser:output})
+        firstName = re.search("[^\s]*", currentUser).group()
+        lastName = re.search("(?<= ).*$", currentUser).group()
+        output = {"Usernames": singleUser(firstName, lastName, domain)}, {"Emails": (firstName+lastName+domain)}
+        userDict.update({currentUser: output})
     print(userDict)
     jsonObject = json.dumps(userDict, indent=4)
     print(jsonObject)
